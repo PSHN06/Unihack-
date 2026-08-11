@@ -1,0 +1,48 @@
+[
+  {
+    "id": "abb-m3bp-160",
+    "company": "ABB Motors & Generators",
+    "brand": "ABB",
+    "part_number": "M3BP 160MLA 4",
+    "product_name": "Process Performance Induction Motor M3BP",
+    "series": "M3BP Process Performance",
+    "category": "Electric Motors",
+    "attributes": [
+      { "attribute_name": "Power Rating", "raw_value": "11 kW", "norm_value": 11, "norm_unit": "kW", "confidence": 0.99, "source_evidence": "Laser-Etched Motor Nameplate Row 1" },
+      { "attribute_name": "Rated Voltage", "raw_value": "400 V", "norm_value": 400, "norm_unit": "V", "confidence": 0.99, "source_evidence": "Laser-Etched Motor Nameplate Row 2" },
+      { "attribute_name": "Rated Speed", "raw_value": "1470 RPM", "norm_value": 1470, "norm_unit": "RPM", "confidence": 0.97, "source_evidence": "ABB Low Voltage Motor Catalog Table 1" },
+      { "attribute_name": "Efficiency Class", "raw_value": "IE3", "norm_value": "IE3", "norm_unit": "", "confidence": 0.98, "source_evidence": "Nameplate Energy Rating Tag" },
+      { "attribute_name": "Protection Class", "raw_value": "IP55", "norm_value": "IP55", "norm_unit": "", "confidence": 0.95, "source_evidence": "Housing Ingress Rating Label" },
+      { "attribute_name": "Mass", "raw_value": "115 kg", "norm_value": 115, "norm_unit": "kg", "confidence": 0.94, "source_evidence": "Schematic Drawing Weight Dimension Tag" }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "UL", "RoHS", "IE3", "IP55"],
+      "visual_notes": "Terminal box top mounted. Cast iron frame 160M drawing parsed."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  },
+  {
+    "id": "abb-m3aa-132",
+    "company": "ABB Motors & Generators",
+    "brand": "ABB",
+    "part_number": "M3AA 132SMA 4",
+    "product_name": "General Performance Aluminium Motor M3AA",
+    "series": "M3AA General Performance",
+    "category": "Electric Motors",
+    "attributes": [
+      { "attribute_name": "Power Rating", "raw_value": "5.5 kW", "norm_value": 5.5, "norm_unit": "kW", "confidence": 0.99, "source_evidence": "ABB Catalog Page 12" },
+      { "attribute_name": "Rated Voltage", "raw_value": "400 V", "norm_value": 400, "norm_unit": "V", "confidence": 0.99, "source_evidence": "ABB Catalog Page 12" },
+      { "attribute_name": "Rated Speed", "raw_value": "1450 RPM", "norm_value": 1450, "norm_unit": "RPM", "confidence": 0.97, "source_evidence": "ABB Catalog Page 12" },
+      { "attribute_name": "Efficiency Class", "raw_value": "IE2", "norm_value": "IE2", "norm_unit": "", "confidence": 0.97, "source_evidence": "Efficiency Marking" }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "RoHS", "IE2"],
+      "visual_notes": "Aluminium frame 132S drawing parsed."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  }
+]

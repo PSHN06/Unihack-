@@ -1,0 +1,47 @@
+[
+  {
+    "id": "skf-6205-bearing",
+    "company": "SKF Group",
+    "brand": "SKF",
+    "part_number": "6205-2RSH",
+    "product_name": "Deep Groove Ball Bearing 6205-2RSH",
+    "series": "6200 Series",
+    "category": "Bearings",
+    "attributes": [
+      { "attribute_name": "Bore Diameter", "raw_value": "25 mm", "norm_value": 25, "norm_unit": "mm", "confidence": 0.99, "source_evidence": "SKF Rolling Bearings Catalog Table 1" },
+      { "attribute_name": "Outside Diameter", "raw_value": "52 mm", "norm_value": 52, "norm_unit": "mm", "confidence": 0.99, "source_evidence": "SKF Rolling Bearings Catalog Table 1" },
+      { "attribute_name": "Width", "raw_value": "15 mm", "norm_value": 15, "norm_unit": "mm", "confidence": 0.98, "source_evidence": "SKF 2D Drawing B" },
+      { "attribute_name": "Basic Dynamic Load Rating", "raw_value": "14.8 kN", "norm_value": 14.8, "norm_unit": "kN", "confidence": 0.95, "source_evidence": "Load Capacity Table Page 104" },
+      { "attribute_name": "Limiting Speed", "raw_value": "14000 RPM", "norm_value": 14000, "norm_unit": "RPM", "confidence": 0.96, "source_evidence": "Speed Limit Table Page 104" }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["RoHS", "SKF Etched Mark"],
+      "visual_notes": "NBR contact seal on both sides (2RSH)."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  },
+  {
+    "id": "skf-6309-bearing",
+    "company": "SKF Group",
+    "brand": "SKF",
+    "part_number": "6309-2RS1",
+    "product_name": "Deep Groove Ball Bearing 6309-2RS1",
+    "series": "6300 Series",
+    "category": "Bearings",
+    "attributes": [
+      { "attribute_name": "Bore Diameter", "raw_value": "45 mm", "norm_value": 45, "norm_unit": "mm", "confidence": 0.99, "source_evidence": "SKF Catalog Page 112" },
+      { "attribute_name": "Outside Diameter", "raw_value": "100 mm", "norm_value": 100, "norm_unit": "mm", "confidence": 0.99, "source_evidence": "SKF Catalog Page 112" },
+      { "attribute_name": "Width", "raw_value": "25 mm", "norm_value": 25, "norm_unit": "mm", "confidence": 0.98, "source_evidence": "SKF Catalog Page 112" },
+      { "attribute_name": "Basic Dynamic Load Rating", "raw_value": "55.3 kN", "norm_value": 55.3, "norm_unit": "kN", "confidence": 0.95, "source_evidence": "Load Rating Table" }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["RoHS", "SKF Made in Sweden"],
+      "visual_notes": "Sheet steel reinforced NBR seal 2RS1."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  }
+]

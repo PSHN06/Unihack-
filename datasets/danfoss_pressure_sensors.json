@@ -1,0 +1,47 @@
+[
+  {
+    "id": "danfoss-mbs-3000",
+    "company": "Danfoss Industrial Automation",
+    "brand": "Danfoss",
+    "part_number": "MBS 3000-060G1125",
+    "product_name": "Compact Pressure Transmitter MBS 3000",
+    "series": "MBS 3000 Series",
+    "category": "Pressure Sensors",
+    "attributes": [
+      { "attribute_name": "Pressure Range", "raw_value": "0 - 10 bar", "norm_value": 10, "norm_unit": "bar", "confidence": 0.98, "source_evidence": "Danfoss MBS 3000 Data Sheet Page 1" },
+      { "attribute_name": "Output Signal", "raw_value": "4 - 20 mA", "norm_value": "4 - 20 mA", "norm_unit": "mA", "confidence": 0.97, "source_evidence": "Electrical Signal Spec Section 2" },
+      { "attribute_name": "Min Operating Temp", "raw_value": "90 °C", "norm_value": 90, "norm_unit": "°C", "confidence": 0.90, "source_evidence": "Environmental Specs Line 4 (Datasheet Error)" },
+      { "attribute_name": "Max Operating Temp", "raw_value": "40 °C", "norm_value": 40, "norm_unit": "°C", "confidence": 0.90, "source_evidence": "Environmental Specs Line 5 (Datasheet Error)" },
+      { "attribute_name": "Supply Voltage", "raw_value": "24 VDC", "norm_value": 24, "norm_unit": "V", "confidence": 0.96, "source_evidence": "Power Supply Spec Row 1" }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "RoHS"],
+      "visual_notes": "Stainless steel body AISI 316L parsed from product label."
+    },
+    "has_conflict": true,
+    "missing_critical": ["ATEX Certification"]
+  },
+  {
+    "id": "danfoss-mbs-1700",
+    "company": "Danfoss Industrial Automation",
+    "brand": "Danfoss",
+    "part_number": "MBS 1700-060G6101",
+    "product_name": "Pressure Transmitter MBS 1700",
+    "series": "MBS 1700 Series",
+    "category": "Pressure Sensors",
+    "attributes": [
+      { "attribute_name": "Pressure Range", "raw_value": "0 - 16 bar", "norm_value": 16, "norm_unit": "bar", "confidence": 0.98, "source_evidence": "Danfoss MBS 1700 Data Sheet Page 1" },
+      { "attribute_name": "Output Signal", "raw_value": "4 - 20 mA", "norm_value": "4 - 20 mA", "norm_unit": "mA", "confidence": 0.97, "source_evidence": "Electrical Specs" },
+      { "attribute_name": "Min Operating Temp", "raw_value": "-40 °C", "norm_value": -40, "norm_unit": "°C", "confidence": 0.95, "source_evidence": "Environmental Specs Table" },
+      { "attribute_name": "Max Operating Temp", "raw_value": "85 °C", "norm_value": 85, "norm_unit": "°C", "confidence": 0.95, "source_evidence": "Environmental Specs Table" }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "RoHS"],
+      "visual_notes": "G 1/4 A EN 837 thread parsed."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  }
+]

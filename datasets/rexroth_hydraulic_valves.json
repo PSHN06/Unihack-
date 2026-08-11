@@ -1,0 +1,50 @@
+[
+  {
+    "id": "rexroth-4we6-valve",
+    "company": "Bosch Rexroth AG",
+    "brand": "Rexroth",
+    "part_number": "4WE6E6X/EG24N9K4",
+    "product_name": "Directional Valve 4WE6 6X Series",
+    "series": "WE6 Series 6X",
+    "category": "Industrial Control Valves",
+    "attributes": [
+      { "attribute_name": "Operating Pressure", "raw_value": "315 bar", "norm_value": 315, "norm_unit": "bar", "confidence": 0.98, "source_evidence": "Rexroth RE 23178 Datasheet Page 1, Section 1.1" },
+      { "attribute_name": "Maximum Flow Rate", "raw_value": "80 L/min", "norm_value": 80, "norm_unit": "L/min", "confidence": 0.95, "source_evidence": "Rexroth RE 23178 Datasheet Page 1, Section 1.1" },
+      { "attribute_name": "Supply Voltage", "raw_value": "24 VDC", "norm_value": 24, "norm_unit": "V", "confidence": 0.99, "source_evidence": "Solenoid Coil Data Sheet Section 3.2" },
+      { "attribute_name": "Min Operating Temp", "raw_value": "-20 °C", "norm_value": -20, "norm_unit": "°C", "confidence": 0.92, "source_evidence": "Environmental Fluid Ratings Page 4" },
+      { "attribute_name": "Max Operating Temp", "raw_value": "80 °C", "norm_value": 80, "norm_unit": "°C", "confidence": 0.92, "source_evidence": "Environmental Fluid Ratings Page 4" },
+      { "attribute_name": "Body Material", "raw_value": "Cast Iron", "norm_value": "Cast Iron", "norm_unit": "", "confidence": 0.96, "source_evidence": "Housing Material Spec Table" },
+      { "attribute_name": "Port Size", "raw_value": "0.25 inch", "norm_value": 6.35, "norm_unit": "mm", "confidence": 0.90, "source_evidence": "Subplate Port Dimensions Drawing Label B" }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "RoHS", "Laser-Etched Model 4WE6", "IP65"],
+      "visual_notes": "Solenoid coil nameplate reads 24VDC 30W. Subplate ports A, B, P, T parsed."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  },
+  {
+    "id": "rexroth-4we10-valve",
+    "company": "Bosch Rexroth AG",
+    "brand": "Rexroth",
+    "part_number": "4WE10E5X/EG24N9K4",
+    "product_name": "Directional Valve 4WE10 5X Series",
+    "series": "WE10 Series 5X",
+    "category": "Industrial Control Valves",
+    "attributes": [
+      { "attribute_name": "Operating Pressure", "raw_value": "350 bar", "norm_value": 350, "norm_unit": "bar", "confidence": 0.98, "source_evidence": "Rexroth RE 23327 Datasheet Page 2" },
+      { "attribute_name": "Maximum Flow Rate", "raw_value": "160 L/min", "norm_value": 160, "norm_unit": "L/min", "confidence": 0.96, "source_evidence": "Rexroth RE 23327 Datasheet Page 2" },
+      { "attribute_name": "Supply Voltage", "raw_value": "24 VDC", "norm_value": 24, "norm_unit": "V", "confidence": 0.99, "source_evidence": "Solenoid Specification Table" },
+      { "attribute_name": "Min Operating Temp", "raw_value": "-20 °C", "norm_value": -20, "norm_unit": "°C", "confidence": 0.92, "source_evidence": "Fluid Spec Table Page 5" },
+      { "attribute_name": "Max Operating Temp", "raw_value": "80 °C", "norm_value": 80, "norm_unit": "°C", "confidence": 0.92, "source_evidence": "Fluid Spec Table Page 5" }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "RoHS", "IP65"],
+      "visual_notes": "ISO 4401 size 10 mounting pattern parsed."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  }
+]

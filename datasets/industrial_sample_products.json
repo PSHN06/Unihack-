@@ -1,0 +1,115 @@
+[
+  {
+    "id": "rexroth-hydraulic-valve",
+    "brand": "Rexroth",
+    "part_number": "4WE6E6X/EG24N9K4",
+    "product_name": "Directional Control Valve 4WE6",
+    "category": "Industrial Control Valves",
+    "text_datasheet": "Brand: Rexroth\nPart Number: 4WE6E6X/EG24N9K4\nCategory: Industrial Control Valves\nOperating Pressure: 315 bar\nMaximum Flow Rate: 80 L/min\nSupply Voltage: 24 VDC\nMin Operating Temperature: -20 °C\nMax Operating Temperature: 80 °C\nBody Material: Cast Iron\nPort Size: 0.25 inch",
+    "attributes": [
+      { "attribute_name": "Operating Pressure", "raw_value": "315 bar", "source_evidence": "Datasheet Page 1, Table 3, Row 2", "confidence": 0.98 },
+      { "attribute_name": "Maximum Flow Rate", "raw_value": "80 L/min", "source_evidence": "Datasheet Page 1, Table 3, Row 4", "confidence": 0.95 },
+      { "attribute_name": "Supply Voltage", "raw_value": "24 VDC", "source_evidence": "Page 2 Solenoid Data Section B", "confidence": 0.99 },
+      { "attribute_name": "Min Operating Temp", "raw_value": "-20 °C", "source_evidence": "Page 2 Environmental Specs Line 1", "confidence": 0.92 },
+      { "attribute_name": "Max Operating Temp", "raw_value": "80 °C", "source_evidence": "Page 2 Environmental Specs Line 2", "confidence": 0.92 },
+      { "attribute_name": "Body Material", "raw_value": "Cast Iron", "source_evidence": "Page 1 Material Spec Sheet", "confidence": 0.96 },
+      { "attribute_name": "Port Size", "raw_value": "0.25 inch", "source_evidence": "Page 3 Technical Schematic Dimension Label B", "confidence": 0.90 }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "RoHS", "Laser-Etched Model 4WE6", "IP65"],
+      "visual_notes": "Solenoid coil label reads 24VDC 30W. Port A/B/P/T dimensioned drawing parsed."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  },
+  {
+    "id": "abb-induction-motor",
+    "brand": "ABB",
+    "part_number": "M3BP 160MLA 4",
+    "product_name": "Process Performance Induction Motor",
+    "category": "Electric Motors",
+    "text_datasheet": "Brand: ABB\nModel: M3BP 160MLA 4\nCategory: Electric Motors\nPower Rating: 11 kW\nRated Voltage: 400 V\nRated Speed: 1470 RPM\nEfficiency Class: IE3\nProtection Class: IP55\nMass: 115 kg",
+    "attributes": [
+      { "attribute_name": "Power Rating", "raw_value": "11 kW", "source_evidence": "Laser-Etched Nameplate Row 1", "confidence": 0.99 },
+      { "attribute_name": "Rated Voltage", "raw_value": "400 V", "source_evidence": "Laser-Etched Nameplate Row 2", "confidence": 0.99 },
+      { "attribute_name": "Rated Speed", "raw_value": "1470 RPM", "source_evidence": "Motor Specification Table 1", "confidence": 0.97 },
+      { "attribute_name": "Efficiency Class", "raw_value": "IE3", "source_evidence": "Nameplate Energy Label", "confidence": 0.98 },
+      { "attribute_name": "Protection Class", "raw_value": "IP55", "source_evidence": "Nameplate Housing Label", "confidence": 0.95 },
+      { "attribute_name": "Mass", "raw_value": "115 kg", "source_evidence": "Schematic Dimension Drawing Tag W", "confidence": 0.94 }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "UL", "RoHS", "IE3", "IP55"],
+      "visual_notes": "Terminal box and shaft keyway parsed from 2D CAD schematic."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  },
+  {
+    "id": "danfoss-pressure-sensor",
+    "brand": "Danfoss",
+    "part_number": "MBS 3000-060G1125",
+    "product_name": "Compact Pressure Transmitter MBS 3000",
+    "category": "Pressure Sensors",
+    "text_datasheet": "Brand: Danfoss\nPart: MBS 3000\nCategory: Pressure Sensors\nPressure Range: 0 - 10 bar\nOutput Signal: 4 - 20 mA\nMin Operating Temperature: 90 °C\nMax Operating Temperature: 40 °C\nSupply Voltage: 24 VDC",
+    "attributes": [
+      { "attribute_name": "Pressure Range", "raw_value": "0 - 10 bar", "source_evidence": "Datasheet Page 1 Header", "confidence": 0.98 },
+      { "attribute_name": "Output Signal", "raw_value": "4 - 20 mA", "source_evidence": "Electrical Connections Table", "confidence": 0.97 },
+      { "attribute_name": "Min Operating Temp", "raw_value": "90 °C", "source_evidence": "Environmental Specs Line 4", "confidence": 0.90 },
+      { "attribute_name": "Max Operating Temp", "raw_value": "40 °C", "source_evidence": "Environmental Specs Line 5", "confidence": 0.90 },
+      { "attribute_name": "Supply Voltage", "raw_value": "24 VDC", "source_evidence": "Power Requirements Row 1", "confidence": 0.96 }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "RoHS"],
+      "visual_notes": "Compact stainless steel housing with DIN plug."
+    },
+    "has_conflict": true,
+    "missing_critical": ["ATEX Certification"]
+  },
+  {
+    "id": "skf-ball-bearing",
+    "brand": "SKF",
+    "part_number": "6205-2RSH",
+    "product_name": "Deep Groove Ball Bearing 6205",
+    "category": "Bearings",
+    "text_datasheet": "Brand: SKF\nPart Number: 6205-2RSH\nCategory: Bearings\nBore Diameter: 25 mm\nOutside Diameter: 52 mm\nWidth: 15 mm\nBasic Dynamic Load Rating: 14.8 kN\nLimiting Speed: 14000 RPM",
+    "attributes": [
+      { "attribute_name": "Bore Diameter", "raw_value": "25 mm", "source_evidence": "SKF Bearing Catalog Table 1", "confidence": 0.99 },
+      { "attribute_name": "Outside Diameter", "raw_value": "52 mm", "source_evidence": "SKF Bearing Catalog Table 1", "confidence": 0.99 },
+      { "attribute_name": "Width", "raw_value": "15 mm", "source_evidence": "Schematic Dimension Drawing B", "confidence": 0.98 },
+      { "attribute_name": "Basic Dynamic Load Rating", "raw_value": "14.8 kN", "source_evidence": "Page 2 Load Specs", "confidence": 0.95 },
+      { "attribute_name": "Limiting Speed", "raw_value": "14000 RPM", "source_evidence": "Page 2 Speed Limits", "confidence": 0.96 }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["RoHS", "SKF Laser Etch"],
+      "visual_notes": "Rubber seal 2RSH parsed on both bearing faces."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  },
+  {
+    "id": "siemens-plc-controller",
+    "brand": "Siemens",
+    "part_number": "6ES7214-1AG40-0XB0",
+    "product_name": "SIMATIC S7-1200 Compact CPU 1214C",
+    "category": "Programmable Logic Controllers",
+    "text_datasheet": "Brand: Siemens\nPart Number: 6ES7214-1AG40-0XB0\nModel: SIMATIC S7-1200 CPU 1214C\nCategory: Programmable Logic Controllers\nSupply Voltage: 24 VDC\nDigital Inputs: 14\nDigital Outputs: 10\nProgram Memory: 100 KB\nOperating Temperature: -20 to 60 °C",
+    "attributes": [
+      { "attribute_name": "Supply Voltage", "raw_value": "24 VDC", "source_evidence": "Siemens S7 Manual Section 2.1", "confidence": 0.99 },
+      { "attribute_name": "Digital Inputs", "raw_value": "14", "source_evidence": "I/O Spec Table Line 1", "confidence": 0.98 },
+      { "attribute_name": "Digital Outputs", "raw_value": "10", "source_evidence": "I/O Spec Table Line 2", "confidence": 0.98 },
+      { "attribute_name": "Program Memory", "raw_value": "100 KB", "source_evidence": "Memory Spec Section 3", "confidence": 0.96 },
+      { "attribute_name": "Operating Temperature", "raw_value": "-20 to 60 °C", "source_evidence": "Environmental Ratings Table", "confidence": 0.95 }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "UL", "RoHS", "PROFINET"],
+      "visual_notes": "DIN rail mounting clip and dual RJ45 Ethernet ports parsed."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  }
+]

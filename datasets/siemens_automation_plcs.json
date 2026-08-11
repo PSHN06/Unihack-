@@ -1,0 +1,46 @@
+[
+  {
+    "id": "siemens-s7-1200",
+    "company": "Siemens AG Factory Automation",
+    "brand": "Siemens",
+    "part_number": "6ES7214-1AG40-0XB0",
+    "product_name": "SIMATIC S7-1200 Compact CPU 1214C",
+    "series": "SIMATIC S7-1200",
+    "category": "Programmable Logic Controllers",
+    "attributes": [
+      { "attribute_name": "Supply Voltage", "raw_value": "24 VDC", "norm_value": 24, "norm_unit": "V", "confidence": 0.99, "source_evidence": "Siemens S7-1200 Manual Section 2.1" },
+      { "attribute_name": "Digital Inputs", "raw_value": "14", "norm_value": 14, "norm_unit": "", "confidence": 0.98, "source_evidence": "I/O Spec Table Line 1" },
+      { "attribute_name": "Digital Outputs", "raw_value": "10", "norm_value": 10, "norm_unit": "", "confidence": 0.98, "source_evidence": "I/O Spec Table Line 2" },
+      { "attribute_name": "Program Memory", "raw_value": "100 KB", "norm_value": 100, "norm_unit": "KB", "confidence": 0.96, "source_evidence": "Memory Specs Section 3" },
+      { "attribute_name": "Operating Temp Range", "raw_value": "-20 to 60 °C", "norm_value": 60, "norm_unit": "°C", "confidence": 0.95, "source_evidence": "Environmental Specs Table" }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "UL", "RoHS", "PROFINET", "cULus"],
+      "visual_notes": "DIN rail clip and PROFINET RJ45 port parsed from product drawing."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  },
+  {
+    "id": "siemens-s7-1500",
+    "company": "Siemens AG Factory Automation",
+    "brand": "Siemens",
+    "part_number": "6ES7515-2AM01-0AB0",
+    "product_name": "SIMATIC S7-1500 CPU 1515-2 PN",
+    "series": "SIMATIC S7-1500",
+    "category": "Programmable Logic Controllers",
+    "attributes": [
+      { "attribute_name": "Supply Voltage", "raw_value": "24 VDC", "norm_value": 24, "norm_unit": "V", "confidence": 0.99, "source_evidence": "Siemens S7-1500 Manual Page 14" },
+      { "attribute_name": "Program Memory", "raw_value": "500 KB", "norm_value": 500, "norm_unit": "KB", "confidence": 0.97, "source_evidence": "Memory Spec Table" },
+      { "attribute_name": "Data Memory", "raw_value": "3 MB", "norm_value": 3, "norm_unit": "MB", "confidence": 0.97, "source_evidence": "Memory Spec Table" }
+    ],
+    "visual_context": {
+      "schematic_dimensions_found": true,
+      "labels_detected": ["CE", "UL", "RoHS", "PROFINET"],
+      "visual_notes": "Dual PROFINET interfaces with display unit."
+    },
+    "has_conflict": false,
+    "missing_critical": []
+  }
+]
