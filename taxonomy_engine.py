@@ -12,7 +12,7 @@ Outputs:
 
 Strategy:
   1. FAST PATH  – keyword-tree lookup (deterministic, zero latency)
-  2. SLOW PATH  – Gemini gemini-2.5-pro via Gemini API (when fast-path confidence < 0.75)
+  2. SLOW PATH  – Gemini gemini-3.6-flash via Gemini API (when fast-path confidence < 0.75)
   3. MERGE      – reconcile both sources; prefer LLM if it scores higher
 
 UNSPSC reference: unspsc.org v25 (subset covering industrial MRO)
@@ -341,7 +341,7 @@ def _resolve_deterministic(
 
 
 # ─────────────────────────────────────────────
-# 4. LLM RESOLVER (Gemini gemini-2.5-pro)
+# 4. LLM RESOLVER (Gemini gemini-3.6-flash)
 # ─────────────────────────────────────────────
 
 _LLM_SYSTEM = """You are an expert industrial taxonomy classifier.
@@ -382,7 +382,7 @@ def _resolve_llm(
     spec_dict:    dict[str, str],
     api_key:      Optional[str] = None,
 ) -> Optional[TaxonomyResult]:
-    """Call Gemini gemini-2.5-pro for taxonomy resolution."""
+    """Call Gemini gemini-3.6-flash for taxonomy resolution."""
     key = api_key or os.environ.get("GEMINI_API_KEY")
     if not key:
         return None
@@ -395,7 +395,7 @@ def _resolve_llm(
     )
 
     try:
-        model = genai.GenerativeModel("gemini-2.5-pro", system_instruction=_LLM_SYSTEM)
+        model = genai.GenerativeModel("gemini-3.6-flash", system_instruction=_LLM_SYSTEM)
         response = model.generate_content(user_msg)
         raw = response.text.strip()
 

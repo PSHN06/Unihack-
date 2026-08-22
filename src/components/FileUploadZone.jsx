@@ -1,20 +1,13 @@
-/**
- * FileUploadZone.jsx
- * Drag-and-drop + click-to-browse file upload zone.
- * Supports: .pdf, .json, .csv
- * Also renders a JSON paste panel for quick demo payloads.
- */
-
 import { useCallback, useRef, useState } from "react";
 import {
   Upload, FileJson, FileText, AlertCircle,
-  CheckCircle2, Loader2, X, ChevronDown, ChevronUp,
+  CheckCircle2, Loader2, X, ChevronDown, ChevronUp, FileSpreadsheet
 } from "lucide-react";
 
 const ACCEPTED_TYPES = {
   "application/pdf":  { label: "PDF Datasheet", ext: ".pdf",  icon: FileText },
   "application/json": { label: "JSON Payload",  ext: ".json", icon: FileJson },
-  "text/csv":         { label: "CSV Specs",      ext: ".csv",  icon: FileText },
+  "text/csv":         { label: "CSV Specs",      ext: ".csv",  icon: FileSpreadsheet },
 };
 
 const DEMO_PAYLOAD = {
@@ -33,18 +26,16 @@ const DEMO_PAYLOAD = {
   "Weight":           "0.65 kg",
 };
 
-// ─────────────────────────────────────────────
 export default function FileUploadZone({ onSubmit, isLoading }) {
   const [dragging, setDragging]     = useState(false);
   const [file, setFile]             = useState(null);
   const [error, setError]           = useState("");
-  const [tab, setTab]               = useState("file");   // "file" | "json"
+  const [tab, setTab]               = useState("file");
   const [jsonText, setJsonText]     = useState(JSON.stringify(DEMO_PAYLOAD, null, 2));
   const [jsonError, setJsonError]   = useState("");
   const [showDemo, setShowDemo]     = useState(false);
   const inputRef = useRef(null);
 
-  // ── Drag handlers ──────────────────────────────────────────────────────────
   const handleDragOver  = useCallback(e => { e.preventDefault(); setDragging(true);  }, []);
   const handleDragLeave = useCallback(e => { e.preventDefault(); setDragging(false); }, []);
 
@@ -75,7 +66,6 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
 
   const clearFile = () => { setFile(null); setError(""); };
 
-  // ── Submit handlers ────────────────────────────────────────────────────────
   const handleFileSubmit = () => {
     if (!file) return;
     const formData = new FormData();
@@ -99,23 +89,22 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
     setTab("json");
   };
 
-  // ── File type icon ─────────────────────────────────────────────────────────
   const FileIcon = file
     ? (ACCEPTED_TYPES[file.type]?.icon ?? FileText)
     : Upload;
 
   return (
-    <div className="w-full max-w-3xl mx-auto">
-      {/* Tab switcher */}
-      <div className="flex gap-1 p-1 bg-slate-800/60 rounded-xl mb-4">
+    <div className="w-full">
+      {/* Light Tab switcher */}
+      <div className="flex gap-1 p-1 bg-slate-100 rounded-xl mb-6">
         {[["file", "Upload File"], ["json", "Paste JSON"]].map(([id, label]) => (
           <button
             key={id}
             onClick={() => setTab(id)}
             className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all
               ${tab === id
-                ? "bg-indigo-600 text-white shadow"
-                : "text-slate-400 hover:text-slate-200"}`}
+                ? "bg-white text-slate-800 shadow-sm border border-slate-200/50"
+                : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"}`}
           >
             {label}
           </button>
@@ -133,34 +122,25 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
               onClick={() => inputRef.current?.click()}
               className={`
                 relative flex flex-col items-center justify-center gap-4
-                border-2 border-dashed rounded-2xl p-12 cursor-pointer
-                transition-all duration-200 group
+                border-2 border-dashed rounded-2xl p-10 cursor-pointer
+                transition-all duration-200 group bg-slate-50
                 ${dragging
-                  ? "border-indigo-400 bg-indigo-900/30 scale-[1.01]"
-                  : "border-slate-600 hover:border-indigo-500 hover:bg-slate-800/40"}
+                  ? "border-blue-400 bg-blue-50 scale-[1.02]"
+                  : "border-slate-300 hover:border-blue-400 hover:bg-blue-50/30"}
               `}
             >
-              <div className={`p-4 rounded-2xl transition-colors
-                ${dragging ? "bg-indigo-600/30" : "bg-slate-700/50 group-hover:bg-indigo-600/20"}`}>
-                <Upload className={`w-8 h-8 transition-colors
-                  ${dragging ? "text-indigo-300" : "text-slate-400 group-hover:text-indigo-400"}`} />
+              <div className={`p-4 rounded-full transition-colors
+                ${dragging ? "bg-blue-100" : "bg-white shadow-sm border border-slate-200 group-hover:bg-blue-50"}`}>
+                <Upload className={`w-6 h-6 transition-colors
+                  ${dragging ? "text-blue-500" : "text-slate-400 group-hover:text-blue-500"}`} />
               </div>
               <div className="text-center">
-                <p className="text-white font-medium">
-                  {dragging ? "Drop your file here" : "Drag & drop your file here"}
+                <p className="text-slate-700 font-medium text-sm">
+                  {dragging ? "Drop your file here" : "Click or drag file to upload"}
                 </p>
-                <p className="text-slate-400 text-sm mt-1">or click to browse</p>
-                <p className="text-slate-500 text-xs mt-3">
-                  Supports PDF datasheets, JSON specs, CSV tables · Max 20 MB
+                <p className="text-slate-400 text-xs mt-2">
+                  Supports PDF, JSON, CSV (Max 20 MB)
                 </p>
-              </div>
-              <div className="flex gap-2 mt-2">
-                {Object.values(ACCEPTED_TYPES).map(({ label, ext }) => (
-                  <span key={ext}
-                    className="px-2 py-1 bg-slate-700 text-slate-300 rounded text-xs">
-                    {ext}
-                  </span>
-                ))}
               </div>
               <input
                 ref={inputRef}
@@ -171,40 +151,41 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
               />
             </div>
           ) : (
-            <div className="flex items-center gap-4 p-5 bg-slate-800/60 border border-slate-600 rounded-2xl">
-              <div className="p-3 bg-indigo-600/20 rounded-xl">
-                <FileIcon className="w-6 h-6 text-indigo-400" />
+            <div className="flex items-center gap-4 p-4 bg-white border border-slate-200 shadow-sm rounded-2xl">
+              <div className="p-3 bg-blue-50 rounded-xl">
+                <FileIcon className="w-6 h-6 text-blue-500" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-white font-medium truncate">{file.name}</p>
-                <p className="text-slate-400 text-sm">
+                <p className="text-slate-800 font-medium truncate text-sm">{file.name}</p>
+                <p className="text-slate-400 text-xs mt-0.5">
                   {(file.size / 1024).toFixed(1)} KB ·{" "}
                   {ACCEPTED_TYPES[file.type]?.label ?? "File"}
                 </p>
               </div>
               <button onClick={clearFile}
-                className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-900/20 rounded-lg transition-colors">
+                className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
           )}
 
           {error && (
-            <div className="flex items-center gap-2 p-3 bg-red-900/20 border border-red-700/50 rounded-xl">
-              <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-              <p className="text-red-300 text-sm">{error}</p>
+            <div className="flex items-center gap-2 p-3 bg-rose-50 border border-rose-100 rounded-xl">
+              <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
+              <p className="text-rose-600 text-sm">{error}</p>
             </div>
           )}
 
           <button
             onClick={handleFileSubmit}
             disabled={!file || isLoading}
-            className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700
-              disabled:text-slate-500 text-white font-semibold rounded-xl transition-all
+            className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 
+              disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400
+              text-white font-medium rounded-xl transition-all shadow-md shadow-blue-500/20
               flex items-center justify-center gap-2"
           >
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-            {isLoading ? "Processing…" : "Run AI Pipeline →"}
+            {isLoading ? "Processing…" : "Analyze Document"}
           </button>
         </div>
       )}
@@ -216,40 +197,32 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
             <textarea
               value={jsonText}
               onChange={e => { setJsonText(e.target.value); setJsonError(""); }}
-              rows={14}
+              rows={12}
               spellCheck={false}
-              className="w-full bg-slate-900/80 border border-slate-700 rounded-xl p-4
-                text-slate-200 text-sm font-mono resize-none focus:outline-none
-                focus:border-indigo-500 transition-colors"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4
+                text-slate-700 text-sm font-mono resize-none focus:outline-none
+                focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all"
               placeholder='{ "product_name": "...", "Body Material": "316 SS", ... }'
             />
-            <button
-              onClick={loadDemo}
-              className="absolute top-3 right-3 px-3 py-1 bg-slate-700 hover:bg-slate-600
-                text-slate-300 text-xs rounded-lg transition-colors"
-            >
-              Load Demo
-            </button>
           </div>
 
           {jsonError && (
-            <div className="flex items-center gap-2 p-3 bg-red-900/20 border border-red-700/50 rounded-xl">
-              <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-              <p className="text-red-300 text-sm">{jsonError}</p>
+            <div className="flex items-center gap-2 p-3 bg-rose-50 border border-rose-100 rounded-xl">
+              <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
+              <p className="text-rose-600 text-sm">{jsonError}</p>
             </div>
           )}
 
-          {/* Demo payload preview toggle */}
           <button
             onClick={() => setShowDemo(s => !s)}
-            className="flex items-center gap-2 text-slate-400 hover:text-slate-200 text-sm transition-colors"
+            className="flex items-center gap-2 text-blue-500 hover:text-blue-600 font-medium text-xs transition-colors"
           >
-            {showDemo ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            {showDemo ? "Hide" : "Show"} sample industrial payloads
+            {showDemo ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            {showDemo ? "Hide templates" : "View template payloads"}
           </button>
 
           {showDemo && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
               {[
                 { label: "Ball Valve",         payload: DEMO_PAYLOAD },
                 { label: "Pressure Transmitter", payload: {
@@ -265,13 +238,13 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
                 <button
                   key={label}
                   onClick={() => setJsonText(JSON.stringify(payload, null, 2))}
-                  className="p-4 bg-slate-800 hover:bg-slate-700 border border-slate-600
-                    hover:border-indigo-500 rounded-xl text-left transition-all group"
+                  className="p-3 bg-white hover:bg-blue-50 border border-slate-200
+                    hover:border-blue-200 rounded-xl text-left transition-all group shadow-sm"
                 >
-                  <p className="text-white font-medium text-sm group-hover:text-indigo-300 transition-colors">
+                  <p className="text-slate-800 font-medium text-sm group-hover:text-blue-600 transition-colors">
                     {label}
                   </p>
-                  <p className="text-slate-500 text-xs mt-1">
+                  <p className="text-slate-400 text-xs mt-0.5">
                     {Object.keys(payload).length - 2} spec attributes
                   </p>
                 </button>
@@ -282,12 +255,13 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
           <button
             onClick={handleJsonSubmit}
             disabled={isLoading}
-            className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700
-              disabled:text-slate-500 text-white font-semibold rounded-xl transition-all
+            className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 
+              disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400
+              text-white font-medium rounded-xl transition-all shadow-md shadow-blue-500/20
               flex items-center justify-center gap-2"
           >
             {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-            {isLoading ? "Processing…" : "Run AI Pipeline →"}
+            {isLoading ? "Processing…" : "Analyze Payload"}
           </button>
         </div>
       )}

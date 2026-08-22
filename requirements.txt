@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-multipart
+google-generativeai
+pydantic
+sqlmodel
+chromadb
+pymupdf
+pillow
