@@ -6,6 +6,7 @@ import PipelineStepper       from "./components/PipelineStepper";
 import AttributeValidationGrid from "./components/AttributeValidationGrid";
 import GraphView             from "./components/GraphView";
 import ExportPanel           from "./components/ExportPanel";
+import BatchProcessor        from "./components/BatchProcessor";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -25,7 +26,7 @@ export default function App() {
   const [pimData,   setPimData]   = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [toast,     setToast]     = useState(null);
-  const [activeTopNav, setActiveTopNav] = useState("Workspace");
+  const [activeTopNav, setActiveTopNav] = useState("Batch Enrichment");
 
   // Chat Copilot State
   const [chatInput, setChatInput] = useState("");
@@ -190,7 +191,7 @@ export default function App() {
         </div>
         
         <div className="flex items-center gap-1 bg-white p-1 rounded-full shadow-sm border border-slate-200">
-          {["Workspace", "Catalog", "Taxonomy", "Reports", "Settings"].map((nav) => (
+          {["Batch Enrichment", "Single Pipeline"].map((nav) => (
             <button 
               key={nav}
               onClick={() => setActiveTopNav(nav)}
@@ -211,9 +212,9 @@ export default function App() {
         {/* Large Header */}
         <div className="flex items-center gap-4 mb-10">
           <h1 className="text-5xl font-semibold tracking-tight text-slate-900">
-            {activeTopNav === "Workspace" ? "Intelligence Workspace" : activeTopNav}
+            {activeTopNav}
           </h1>
-          {jobId && activeTopNav === "Workspace" && (
+          {jobId && activeTopNav === "Single Pipeline" && (
             <div className="flex items-center gap-2 px-3 py-1 bg-white rounded-full border border-slate-200 shadow-sm">
               <span className={`w-2 h-2 rounded-full animate-pulse
                 ${jobStatus === "processing" ? "bg-blue-500"
@@ -227,15 +228,9 @@ export default function App() {
           )}
         </div>
 
-        {activeTopNav !== "Workspace" ? (
-          <div className="flex flex-col items-center justify-center py-32 bg-white rounded-[2rem] shadow-soft border border-slate-100 text-center">
-            <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6">
-              <Sparkles className="w-8 h-8 text-slate-300" />
-            </div>
-            <h2 className="text-2xl font-semibold text-slate-800 mb-2">{activeTopNav} Dashboard</h2>
-            <p className="text-slate-500 max-w-md">
-              This module is currently under development. The core AI Pipeline is fully functional inside the <strong>Workspace</strong> tab!
-            </p>
+        {activeTopNav === "Batch Enrichment" ? (
+          <div className="bg-white rounded-[2rem] p-8 shadow-soft border border-slate-100">
+            <BatchProcessor />
           </div>
         ) : (
           /* ── Main Dashboard Grid ── */

@@ -80,14 +80,14 @@ def find_related(product_text: str, spec_dict: dict, n_results: int = 5) -> List
     
     related = []
     if results['metadatas'] and results['metadatas'][0]:
+        distances = results.get('distances', [[]])[0]
         for i, meta in enumerate(results['metadatas'][0]):
-            rel_type = "accessory" if i % 2 == 0 else "alternative"
-            if i == n_results - 1:
-                rel_type = "parent"
-                
             related.append({
-                "type": rel_type,
-                "name": str(meta["name"]),
-                "part_no": str(meta["part_no"])
+                "title": str(meta.get("name", "")),
+                "part_number": str(meta.get("part_no", "")),
+                "description": str(meta.get("spec_summary", meta.get("description", ""))),
+                "category": str(meta.get("category", "")),
+                "distance": float(distances[i]) if i < len(distances) else 0.0,
+                "type": "accessory" if i % 2 == 0 else "alternative",
             })
     return related

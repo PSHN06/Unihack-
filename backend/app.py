@@ -33,9 +33,16 @@ from taxonomy_engine import classify as classify_taxonomy
 from rag_engine import find_related
 from vision_parser import parse_pdf
 from backend.db import create_db_and_tables, get_session, Job as DBJob
+from batch_enricher import (
+    parse_input_csv, enrich_row_async, rows_to_csv_bytes,
+    _configure_genai as _batch_configure_genai, OUTPUT_HEADERS
+)
 
 # Global Semaphore to prevent LLM rate limiting (Upgrade 4)
 LLM_SEMAPHORE = asyncio.Semaphore(3)
+
+# In-memory store for batch jobs: job_id -> {status, total, done, rows, stream_queue}
+_BATCH_JOBS: dict[str, dict] = {}
 
 UPLOAD_DIR = Path("/tmp/unihack_uploads")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -417,3 +424,172 @@ async def health():
     with get_session() as session:
         count = len(session.exec(select(DBJob)).all())
     return {"status": "ok", "jobs": count, "gemini_key_set": bool(os.environ.get("GEMINI_API_KEY"))}
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BATCH ENRICHMENT ENDPOINTS
+# ─────────────────────────────────────────────────────────────────────────────
+
+async def _run_batch_job(batch_id: str, input_rows: list, api_key: str):
+    """Background coroutine: enriches each row and streams progress events."""
+    job = _BATCH_JOBS[batch_id]
+    primary_key = api_key or os.environ.get("GEMINI_API_KEY", "")
+    fallback_key = os.environ.get("GEMINI_COPILOT_API_KEY", "")
+    current_key = primary_key
+    model = _batch_configure_genai(current_key)
+    
+    # Semaphore: 1 parallel call to respect free-tier rate limits
+    sem = asyncio.Semaphore(1)
+    output_rows = []
+    errors = []
+
+    for idx, row in enumerate(input_rows):
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                enriched = await enrich_row_async(row, model=model, semaphore=sem)
+                output_rows.append(enriched)
+                job["done"] = idx + 1
+                job["last_row"] = {
+                    k: enriched.get(k, "") for k in
+                    ["Mfg_Part_Num", "Part_Desc", "MANUFACTURER_NAME", "BRAND_NAME",
+                     "Classpath", "SHORT_DESC", "INVOICE_DESC"]
+                }
+                if job["queue"]:
+                    job["queue"].put_nowait({"type": "progress", "done": idx + 1,
+                                              "total": job["total"], "row": job["last_row"]})
+                # Free tier is 15 RPM, so sleep 4.1 seconds between requests
+                await asyncio.sleep(4.1)
+                break
+            except Exception as e:
+                err_str = str(e)
+                print(f"ERROR ON ROW {idx} ATTEMPT {attempt}: {err_str}")
+                if "Quota exceeded" in err_str or "429" in err_str:
+                    if current_key == primary_key and fallback_key:
+                        print("Primary key quota exceeded! Switching to fallback key...")
+                        current_key = fallback_key
+                        model = _batch_configure_genai(current_key)
+                        await asyncio.sleep(2)
+                        continue
+                
+                if attempt == max_retries - 1:
+                    if "Quota exceeded" in err_str or "429" in err_str:
+                        print("Both keys out of quota! Using mock fallback row...")
+                        enriched = {
+                            "Mfg_Part_Num": row.get("Mfg_Part_Num", "MOCK-123"),
+                            "Part_Desc": row.get("Part_Desc", "Mock Description"),
+                            "MANUFACTURER_NAME": "Mock Manuf (Quota Reached)",
+                            "BRAND_NAME": "Mock Brand",
+                            "Classpath": "Mock>Category>Path",
+                            "SHORT_DESC": "Mock short description due to API quota limits.",
+                            "INVOICE_DESC": "MOCK INVOICE DESC",
+                        }
+                        from pipeline.batch_enricher import OUTPUT_HEADERS
+                        for h in OUTPUT_HEADERS:
+                            if h not in enriched:
+                                enriched[h] = ""
+                        output_rows.append(enriched)
+                        job["done"] = idx + 1
+                        job["last_row"] = enriched
+                        job["mock_used"] = True
+                        if job["queue"]:
+                            job["queue"].put_nowait({"type": "progress", "done": idx + 1, "total": job["total"], "row": job["last_row"], "mock_used": True})
+                    else:
+                        errors.append({"row": idx, "error": err_str})
+                        job["done"] = idx + 1
+                else:
+                    await asyncio.sleep(10)  # wait 10s and retry
+
+    job["status"] = "complete"
+    job["csv_bytes"] = rows_to_csv_bytes(output_rows)
+    job["errors"] = errors
+    if job["queue"]:
+        job["queue"].put_nowait({"type": "complete", "done": job["done"],
+                                  "total": job["total"], "errors": len(errors)})
+
+
+@app.post("/api/batch/process")
+async def batch_process(
+    background_tasks: BackgroundTasks,
+    file: UploadFile = File(...),
+):
+    """Upload a CSV file and start batch enrichment job."""
+    if not file.filename.endswith(".csv"):
+        raise HTTPException(status_code=400, detail="Only CSV files are supported.")
+
+    file_bytes = await file.read()
+    input_rows = parse_input_csv(file_bytes)
+    if not input_rows:
+        raise HTTPException(status_code=400, detail="CSV file is empty or has no valid rows.")
+
+    batch_id = str(uuid.uuid4())
+    _BATCH_JOBS[batch_id] = {
+        "status": "processing",
+        "total": len(input_rows),
+        "done": 0,
+        "last_row": {},
+        "csv_bytes": None,
+        "errors": [],
+        "queue": asyncio.Queue(),
+    }
+
+    api_key = os.environ.get("GEMINI_API_KEY", "")
+    background_tasks.add_task(_run_batch_job, batch_id, input_rows, api_key)
+    return {"batch_id": batch_id, "total": len(input_rows)}
+
+
+@app.get("/api/batch/stream/{batch_id}")
+async def batch_stream(batch_id: str):
+    """SSE endpoint streaming live progress for a batch job."""
+    job = _BATCH_JOBS.get(batch_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Batch job not found.")
+
+    async def event_generator():
+        q = job["queue"]
+        while True:
+            try:
+                event = await asyncio.wait_for(q.get(), timeout=60.0)
+                yield f"data: {json.dumps(event)}\n\n"
+                if event.get("type") in ("complete", "error"):
+                    break
+            except asyncio.TimeoutError:
+                # Send heartbeat
+                yield f"data: {json.dumps({'type': 'heartbeat', 'done': job['done'], 'total': job['total']})}\n\n"
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream",
+                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+
+
+@app.get("/api/batch/status/{batch_id}")
+async def batch_status(batch_id: str):
+    """Poll-based status check for a batch job."""
+    job = _BATCH_JOBS.get(batch_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Batch job not found.")
+    return {
+        "status": job["status"],
+        "total": job["total"],
+        "done": job["done"],
+        "last_row": job.get("last_row", {}),
+        "errors": len(job.get("errors", [])),
+        "ready": job["csv_bytes"] is not None,
+        "mock_used": job.get("mock_used", False)
+    }
+
+
+@app.get("/api/batch/download/{batch_id}")
+async def batch_download(batch_id: str):
+    """Download the enriched CSV for a completed batch job."""
+    job = _BATCH_JOBS.get(batch_id)
+    if not job:
+        raise HTTPException(status_code=404, detail="Batch job not found.")
+    if job["csv_bytes"] is None:
+        raise HTTPException(status_code=202, detail="Job still processing.")
+
+    return StreamingResponse(
+        iter([job["csv_bytes"]]),
+        media_type="text/csv",
+        headers={"Content-Disposition": f'attachment; filename="enriched_output_{batch_id[:8]}.csv"'},
+    )
+
