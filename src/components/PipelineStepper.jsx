@@ -26,23 +26,23 @@ function PhaseIcon({ meta, status }) {
   const base  = "w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-500 shrink-0";
 
   if (status === "complete") return (
-    <div className={`${base} bg-emerald-50 border border-emerald-100 text-emerald-500`}>
+    <div className={`${base} bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-100 dark:border-emerald-800/50 text-emerald-500 dark:text-emerald-400`}>
       <CheckCircle2 className="w-5 h-5" />
     </div>
   );
   if (status === "running") return (
-    <div className={`${base} ${clr.bg} ring-2 ${clr.ring} shadow-md shadow-${meta.color}-500/20 animate-pulse`}>
-      <Icon className={`w-5 h-5 ${clr.text}`} />
+    <div className={`${base} ${clr.bg} dark:bg-opacity-20 ring-2 ${clr.ring} dark:ring-opacity-50 shadow-md shadow-${meta.color}-500/20 animate-pulse`}>
+      <Icon className={`w-5 h-5 ${clr.text} dark:text-${meta.color}-400`} />
     </div>
   );
   if (status === "error") return (
-    <div className={`${base} bg-rose-50 border border-rose-100 text-rose-500`}>
+    <div className={`${base} bg-rose-50 dark:bg-rose-900/30 border border-rose-100 dark:border-rose-800/50 text-rose-500 dark:text-rose-400`}>
       <AlertCircle className="w-5 h-5" />
     </div>
   );
   
   return (
-    <div className={`${base} bg-slate-50 border border-slate-200 text-slate-400`}>
+    <div className={`${base} bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500`}>
       <Icon className="w-5 h-5" />
     </div>
   );
@@ -65,7 +65,7 @@ function ElapsedTimer({ running }) {
   if (!running) return null;
   const m = String(Math.floor(secs / 60)).padStart(2, "0");
   const s = String(secs % 60).padStart(2, "0");
-  return <span className="text-xs text-blue-500 font-mono font-medium px-2 py-0.5 bg-blue-50 rounded-md">{m}:{s}</span>;
+  return <span className="text-xs text-blue-500 dark:text-blue-400 font-mono font-medium px-2 py-0.5 bg-blue-50 dark:bg-blue-900/30 rounded-md">{m}:{s}</span>;
 }
 
 export default function PipelineStepper({ phases = {}, jobStatus = "idle" }) {
@@ -83,7 +83,7 @@ export default function PipelineStepper({ phases = {}, jobStatus = "idle" }) {
           {isRunning && <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />}
           {isDone    && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
           {isFailed  && <AlertCircle  className="w-4 h-4 text-rose-500" />}
-          <span className="text-sm font-semibold text-slate-700">
+          <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             {isRunning ? "Pipeline active…"
             : isDone   ? "Pipeline complete"
             : isFailed ? "Pipeline failed"
@@ -94,7 +94,7 @@ export default function PipelineStepper({ phases = {}, jobStatus = "idle" }) {
         <span className="text-sm font-bold text-slate-500">{overallPct}%</span>
       </div>
 
-      <div className="w-full bg-slate-100 rounded-full h-2 mb-6 shadow-inner overflow-hidden">
+      <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 mb-6 shadow-inner overflow-hidden">
         <div
           className="bg-gradient-to-r from-blue-400 to-indigo-500 h-2 rounded-full
             transition-all duration-700 ease-out relative"
@@ -119,10 +119,10 @@ export default function PipelineStepper({ phases = {}, jobStatus = "idle" }) {
               className={`
                 relative overflow-hidden rounded-2xl p-3 border transition-all duration-300 flex gap-4 items-center
                 ${isAct
-                  ? `bg-white border-${meta.color}-200 shadow-sm shadow-${meta.color}-100`
+                  ? `bg-white dark:bg-slate-900 border-${meta.color}-200 dark:border-${meta.color}-800/50 shadow-sm shadow-${meta.color}-100 dark:shadow-none`
                   : status === "complete"
-                    ? "bg-white border-slate-100 shadow-sm"
-                    : "bg-slate-50/50 border-slate-100/50 opacity-70"}
+                    ? "bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 shadow-sm"
+                    : "bg-slate-50/50 dark:bg-slate-900/30 border-slate-100/50 dark:border-slate-800/50 opacity-70"}
               `}
             >
               <PhaseIcon meta={meta} status={status} />
@@ -130,9 +130,9 @@ export default function PipelineStepper({ phases = {}, jobStatus = "idle" }) {
               <div className="flex-1 min-w-0 py-1">
                 <div className="flex items-center justify-between gap-2 mb-1">
                   <p className={`font-semibold text-sm transition-colors
-                    ${status === "complete" ? "text-slate-700"
-                    : isAct ? "text-slate-900"
-                    : "text-slate-500"}`}>
+                    ${status === "complete" ? "text-slate-700 dark:text-slate-300"
+                    : isAct ? "text-slate-900 dark:text-slate-100"
+                    : "text-slate-500 dark:text-slate-500"}`}>
                     {meta.label}
                   </p>
                   
@@ -140,16 +140,16 @@ export default function PipelineStepper({ phases = {}, jobStatus = "idle" }) {
                     <span className="text-xs font-bold text-slate-400">{prog}%</span>
                   )}
                   {status === "complete" && (
-                     <span className="text-[10px] uppercase font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-full">Done</span>
+                     <span className="text-[10px] uppercase font-bold text-emerald-500 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 rounded-full">Done</span>
                   )}
                 </div>
 
-                <p className="text-slate-500 text-xs truncate">
+                <p className="text-slate-500 dark:text-slate-400 text-xs truncate">
                   {status === "complete" ? "Completed successfully" : isAct && msg ? msg : "Waiting"}
                 </p>
 
                 {isAct && (
-                  <div className="mt-2.5 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                  <div className="mt-2.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
                     <div
                       className={`${clr.fill} h-1.5 rounded-full transition-all duration-500 relative`}
                       style={{ width: `${prog}%` }}

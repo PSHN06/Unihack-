@@ -7,3 +7,5 @@ sqlmodel
 chromadb
 pymupdf
 pillow
+thefuzz
+python-Levenshtein

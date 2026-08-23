@@ -3,7 +3,7 @@ import { Download, Code } from "lucide-react";
 export default function ExportPanel({ pimData, jobId }) {
   if (!pimData) {
     return (
-      <div className="text-center py-12 text-slate-400">
+      <div className="text-center py-12 text-slate-400 dark:text-slate-500">
         Run the pipeline to generate an export payload.
       </div>
     );
@@ -21,10 +21,10 @@ export default function ExportPanel({ pimData, jobId }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between bg-white border border-slate-200 p-5 rounded-2xl shadow-sm">
+      <div className="flex items-center justify-between bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
         <div>
-          <h3 className="text-lg font-semibold text-slate-800">PIM Export Payload</h3>
-          <p className="text-sm text-slate-500">Commerce-ready JSON tailored for standard PIM/MDM systems.</p>
+          <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">PIM Export Payload</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Commerce-ready JSON tailored for standard PIM/MDM systems.</p>
         </div>
         <button
           onClick={handleDownload}

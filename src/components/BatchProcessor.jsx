@@ -100,13 +100,13 @@ export default function BatchProcessor() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Batch Enrichment</h2>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <h2 className="text-xl font-bold text-slate-800 dark:text-slate-200">Batch Enrichment</h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Upload the input CSV → AI enriches every row → Download 252-column output
           </p>
         </div>
         {status !== "idle" && (
-          <button onClick={reset} className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 transition-colors">
+          <button onClick={reset} className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors">
             <X className="w-3.5 h-3.5" /> Reset
           </button>
         )}
@@ -120,17 +120,17 @@ export default function BatchProcessor() {
           onDrop={onDrop}
           onClick={() => fileRef.current?.click()}
           className={`relative border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all
-            ${dragging ? "border-blue-400 bg-blue-50" : "border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/30"}`}
+            ${dragging ? "border-blue-400 bg-blue-50 dark:bg-blue-900/20" : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50/30 dark:hover:bg-blue-900/10"}`}
         >
           <input ref={fileRef} type="file" accept=".csv" className="hidden" onChange={onDrop} />
           <div className="flex flex-col items-center gap-3">
-            <div className={`p-4 rounded-2xl ${dragging ? "bg-blue-100" : "bg-slate-100"} transition-colors`}>
-              <Upload className={`w-8 h-8 ${dragging ? "text-blue-500" : "text-slate-400"}`} />
+            <div className={`p-4 rounded-2xl ${dragging ? "bg-blue-100 dark:bg-blue-900/40" : "bg-slate-100 dark:bg-slate-800"} transition-colors`}>
+              <Upload className={`w-8 h-8 ${dragging ? "text-blue-500" : "text-slate-400 dark:text-slate-500"}`} />
             </div>
             <div>
-              <p className="font-semibold text-slate-700">Drop your Input CSV here</p>
+              <p className="font-semibold text-slate-700 dark:text-slate-300">Drop your Input CSV here</p>
               <p className="text-sm text-slate-400 mt-1">
-                Expects: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-xs">Mfg_Part_Num, Part_Desc, E1_Brand, Unilog_Brand, DIB_Brand, Part_Manuf</code>
+                Expects: <code className="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-xs">Mfg_Part_Num, Part_Desc, E1_Brand, Unilog_Brand, DIB_Brand, Part_Manuf</code>
               </p>
             </div>
           </div>
@@ -139,13 +139,13 @@ export default function BatchProcessor() {
 
       {/* File Selected */}
       {status === "idle" && file && (
-        <div className="p-4 bg-white border border-slate-200 rounded-xl flex items-center justify-between">
+        <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-blue-50 rounded-lg">
+            <div className="p-2.5 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
               <FileText className="w-5 h-5 text-blue-500" />
             </div>
             <div>
-              <p className="font-medium text-slate-800 text-sm">{file.name}</p>
+              <p className="font-medium text-slate-800 dark:text-slate-200 text-sm">{file.name}</p>
               <p className="text-xs text-slate-400">{(file.size / 1024).toFixed(1)} KB</p>
             </div>
           </div>
@@ -160,9 +160,9 @@ export default function BatchProcessor() {
 
       {/* Upload / Starting */}
       {status === "uploading" && (
-        <div className="p-6 bg-white border border-slate-200 rounded-2xl flex items-center gap-4">
+        <div className="p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl flex items-center gap-4">
           <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
-          <p className="text-slate-700 font-medium">Uploading CSV and starting enrichment job…</p>
+          <p className="text-slate-700 dark:text-slate-300 font-medium">Uploading CSV and starting enrichment job…</p>
         </div>
       )}
 
@@ -170,7 +170,7 @@ export default function BatchProcessor() {
       {(status === "processing" || status === "complete") && (
         <div className="space-y-4">
           {/* Progress bar card */}
-          <div className="p-6 bg-white border border-slate-200 rounded-2xl space-y-4">
+          <div className="p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {status === "processing" ? (
@@ -178,16 +178,16 @@ export default function BatchProcessor() {
                 ) : (
                   <CheckCircle className="w-5 h-5 text-emerald-500" />
                 )}
-                <span className="font-semibold text-slate-800">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">
                   {status === "processing" ? "Enriching rows…" : "Enrichment Complete!"}
                 </span>
               </div>
-              <span className="text-sm font-mono font-bold text-slate-600">
+              <span className="text-sm font-mono font-bold text-slate-600 dark:text-slate-400">
                 {progress.done} / {progress.total} rows &nbsp;·&nbsp; {pct}%
               </span>
             </div>
 
-            <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+            <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
               <div
                 className={`h-3 rounded-full transition-all duration-500 ${status === "complete" ? "bg-emerald-500" : "bg-blue-500"}`}
                 style={{ width: `${pct}%` }}
@@ -202,11 +202,11 @@ export default function BatchProcessor() {
             )}
 
             {progress.mock_used && (
-              <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3 mt-4">
-                <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-xl flex items-start gap-3 mt-4">
+                <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-500 shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-semibold text-amber-800">API Quota Exhausted</p>
-                  <p className="text-sm text-amber-700 mt-1">
+                  <p className="font-semibold text-amber-800 dark:text-amber-400">API Quota Exhausted</p>
+                  <p className="text-sm text-amber-700 dark:text-amber-300 mt-1">
                     The free-tier daily LLM limit was reached during this batch. To ensure your pipeline completes, the remaining rows have been filled with mock data. Please provide a paid API key or wait 24 hours to process more live rows.
                   </p>
                 </div>
@@ -226,44 +226,44 @@ export default function BatchProcessor() {
 
           {/* Live row feed */}
           {recentRows.length > 0 && (
-            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden flex flex-col">
-              <div className="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between">
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden flex flex-col">
+              <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Play className="w-4 h-4 text-blue-500" />
-                  <span className="text-sm font-semibold text-slate-700">Live Feed — Last processed rows</span>
+                  <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">Live Feed — Last processed rows</span>
                 </div>
                 <button
                   onClick={() => setShowLiveFeed(!showLiveFeed)}
-                  className="flex items-center gap-1.5 text-xs text-slate-500 hover transition-colors"
+                  className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
                 >
                   {showLiveFeed ? <><EyeOff className="w-3.5 h-3.5" /> Hide</> : <><Eye className="w-3.5 h-3.5" /> Show</>}
                 </button>
               </div>
               
               {showLiveFeed && (
-                <div className="overflow-y-auto max-h-96 w-full">
+                <div className="overflow-y-auto max-h-96 w-full custom-scrollbar">
                   <table className="w-full text-left border-collapse">
-                    <thead className="sticky top-0 bg-slate-50 z-10 border-b border-slate-200">
+                    <thead className="sticky top-0 bg-slate-50 dark:bg-slate-800/80 backdrop-blur-sm z-10 border-b border-slate-200 dark:border-slate-700">
                       <tr>
-                        <th className="px-5 py-3 font-mono text-slate-500 text-[10px] uppercase tracking-wider font-semibold">Part Number</th>
-                        <th className="px-5 py-3 font-mono text-slate-500 text-[10px] uppercase tracking-wider font-semibold">Brand / Manufacturer</th>
-                        <th className="px-5 py-3 font-mono text-slate-500 text-[10px] uppercase tracking-wider font-semibold">Invoice Desc</th>
+                        <th className="px-5 py-3 font-mono text-slate-500 dark:text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Part Number</th>
+                        <th className="px-5 py-3 font-mono text-slate-500 dark:text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Brand / Manufacturer</th>
+                        <th className="px-5 py-3 font-mono text-slate-500 dark:text-slate-400 text-[10px] uppercase tracking-wider font-semibold">Invoice Desc</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-50">
+                    <tbody className="divide-y divide-slate-50 dark:divide-slate-800/50">
                       {recentRows.map((row, i) => (
-                        <tr key={i} className="hover:bg-slate-50/50 transition-colors">
+                        <tr key={i} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                           <td className="px-5 py-3 text-xs align-top w-1/3">
-                            <p className="font-semibold text-slate-800 truncate">{row.Mfg_Part_Num}</p>
-                            <p className="text-slate-400 truncate mt-0.5">{row.Part_Desc?.slice(0, 40)}…</p>
+                            <p className="font-semibold text-slate-800 dark:text-slate-200 truncate">{row.Mfg_Part_Num}</p>
+                            <p className="text-slate-400 dark:text-slate-500 truncate mt-0.5">{row.Part_Desc?.slice(0, 40)}…</p>
                           </td>
                           <td className="px-5 py-3 text-xs align-top w-1/3">
-                            <p className="font-semibold text-blue-700 truncate">{row.BRAND_NAME}</p>
-                            <p className="text-slate-400 truncate mt-0.5">{row.MANUFACTURER_NAME}</p>
+                            <p className="font-semibold text-blue-700 dark:text-blue-400 truncate">{row.BRAND_NAME}</p>
+                            <p className="text-slate-400 dark:text-slate-500 truncate mt-0.5">{row.MANUFACTURER_NAME}</p>
                           </td>
                           <td className="px-5 py-3 text-xs align-top w-1/3">
-                            <p className="font-mono font-bold text-emerald-700 truncate">{row.INVOICE_DESC}</p>
-                            <p className="text-slate-400 truncate text-[10px] mt-0.5">{row.Classpath?.split(">").pop()}</p>
+                            <p className="font-mono font-bold text-emerald-700 dark:text-emerald-400 truncate">{row.INVOICE_DESC}</p>
+                            <p className="text-slate-400 dark:text-slate-500 truncate text-[10px] mt-0.5">{row.Classpath?.split(">").pop()}</p>
                           </td>
                         </tr>
                       ))}
@@ -278,12 +278,12 @@ export default function BatchProcessor() {
 
       {/* Error */}
       {status === "error" && (
-        <div className="p-5 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+        <div className="p-5 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50 rounded-2xl flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-red-500 dark:text-red-400 shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-red-700">Enrichment failed</p>
-            <p className="text-sm text-red-500 mt-1">{errorMsg}</p>
-            <button onClick={reset} className="mt-3 text-xs text-red-600 underline">Try again</button>
+            <p className="font-semibold text-red-700 dark:text-red-400">Enrichment failed</p>
+            <p className="text-sm text-red-500 dark:text-red-300 mt-1">{errorMsg}</p>
+            <button onClick={reset} className="mt-3 text-xs text-red-600 dark:text-red-400 underline">Try again</button>
           </div>
         </div>
       )}
@@ -295,9 +295,9 @@ export default function BatchProcessor() {
           { label: "AI Model", value: "Gemini 3.6 Flash", sub: "One enrichment call per row" },
           { label: "Output Format", value: "252-column CSV", sub: "Exact Unilog Delivery Format schema" },
         ].map(({ label, value, sub }) => (
-          <div key={label} className="p-4 bg-white border border-slate-100 rounded-xl">
-            <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">{label}</p>
-            <p className="font-bold text-slate-800 mt-1">{value}</p>
+          <div key={label} className="p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl">
+            <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">{label}</p>
+            <p className="font-bold text-slate-800 dark:text-slate-200 mt-1">{value}</p>
             <p className="text-xs text-slate-400 mt-0.5">{sub}</p>
           </div>
         ))}

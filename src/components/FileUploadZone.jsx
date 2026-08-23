@@ -96,15 +96,15 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
   return (
     <div className="w-full">
       {/* Light Tab switcher */}
-      <div className="flex gap-1 p-1 bg-slate-100 rounded-xl mb-6">
+      <div className="flex gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl mb-6">
         {[["file", "Upload File"], ["json", "Paste JSON"]].map(([id, label]) => (
           <button
             key={id}
             onClick={() => setTab(id)}
             className={`flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all
               ${tab === id
-                ? "bg-white text-slate-800 shadow-sm border border-slate-200/50"
-                : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"}`}
+                ? "bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-200 shadow-sm border border-slate-200/50 dark:border-slate-600/50"
+                : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-700/50"}`}
           >
             {label}
           </button>
@@ -123,22 +123,22 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
               className={`
                 relative flex flex-col items-center justify-center gap-4
                 border-2 border-dashed rounded-2xl p-10 cursor-pointer
-                transition-all duration-200 group bg-slate-50
+                transition-all duration-200 group bg-slate-50 dark:bg-slate-900/50
                 ${dragging
-                  ? "border-blue-400 bg-blue-50 scale-[1.02]"
-                  : "border-slate-300 hover:border-blue-400 hover:bg-blue-50/30"}
+                  ? "border-blue-400 bg-blue-50 dark:bg-blue-900/20 scale-[1.02]"
+                  : "border-slate-300 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50/30 dark:hover:bg-blue-900/10"}
               `}
             >
               <div className={`p-4 rounded-full transition-colors
-                ${dragging ? "bg-blue-100" : "bg-white shadow-sm border border-slate-200 group-hover:bg-blue-50"}`}>
+                ${dragging ? "bg-blue-100 dark:bg-blue-900/40" : "bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 group-hover:bg-blue-50 dark:group-hover:bg-slate-700"}`}>
                 <Upload className={`w-6 h-6 transition-colors
-                  ${dragging ? "text-blue-500" : "text-slate-400 group-hover:text-blue-500"}`} />
+                  ${dragging ? "text-blue-500" : "text-slate-400 dark:text-slate-500 group-hover:text-blue-500 dark:group-hover:text-blue-400"}`} />
               </div>
               <div className="text-center">
-                <p className="text-slate-700 font-medium text-sm">
+                <p className="text-slate-700 dark:text-slate-300 font-medium text-sm">
                   {dragging ? "Drop your file here" : "Click or drag file to upload"}
                 </p>
-                <p className="text-slate-400 text-xs mt-2">
+                <p className="text-slate-400 dark:text-slate-500 text-xs mt-2">
                   Supports PDF, JSON, CSV (Max 20 MB)
                 </p>
               </div>
@@ -151,28 +151,28 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
               />
             </div>
           ) : (
-            <div className="flex items-center gap-4 p-4 bg-white border border-slate-200 shadow-sm rounded-2xl">
-              <div className="p-3 bg-blue-50 rounded-xl">
+            <div className="flex items-center gap-4 p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-sm rounded-2xl">
+              <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-xl">
                 <FileIcon className="w-6 h-6 text-blue-500" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-slate-800 font-medium truncate text-sm">{file.name}</p>
+                <p className="text-slate-800 dark:text-slate-200 font-medium truncate text-sm">{file.name}</p>
                 <p className="text-slate-400 text-xs mt-0.5">
                   {(file.size / 1024).toFixed(1)} KB ·{" "}
                   {ACCEPTED_TYPES[file.type]?.label ?? "File"}
                 </p>
               </div>
               <button onClick={clearFile}
-                className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-colors">
+                className="p-2 text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/30 rounded-lg transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
           )}
 
           {error && (
-            <div className="flex items-center gap-2 p-3 bg-rose-50 border border-rose-100 rounded-xl">
-              <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
-              <p className="text-rose-600 text-sm">{error}</p>
+            <div className="flex items-center gap-2 p-3 bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-900/50 rounded-xl">
+              <AlertCircle className="w-4 h-4 text-rose-500 dark:text-rose-400 shrink-0" />
+              <p className="text-rose-600 dark:text-rose-400 text-sm">{error}</p>
             </div>
           )}
 
@@ -180,7 +180,7 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
             onClick={handleFileSubmit}
             disabled={!file || isLoading}
             className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 
-              disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400
+              disabled:from-slate-200 disabled:to-slate-200 dark:disabled:from-slate-800 dark:disabled:to-slate-800 disabled:text-slate-400 dark:disabled:text-slate-600
               text-white font-medium rounded-xl transition-all shadow-md shadow-blue-500/20
               flex items-center justify-center gap-2"
           >
@@ -199,17 +199,17 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
               onChange={e => { setJsonText(e.target.value); setJsonError(""); }}
               rows={12}
               spellCheck={false}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4
-                text-slate-700 text-sm font-mono resize-none focus:outline-none
-                focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 transition-all"
+              className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-4
+                text-slate-700 dark:text-slate-300 text-sm font-mono resize-none focus:outline-none
+                focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 dark:focus:border-blue-500 transition-all"
               placeholder='{ "product_name": "...", "Body Material": "316 SS", ... }'
             />
           </div>
 
           {jsonError && (
-            <div className="flex items-center gap-2 p-3 bg-rose-50 border border-rose-100 rounded-xl">
-              <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />
-              <p className="text-rose-600 text-sm">{jsonError}</p>
+            <div className="flex items-center gap-2 p-3 bg-rose-50 dark:bg-rose-900/20 border border-rose-100 dark:border-rose-900/50 rounded-xl">
+              <AlertCircle className="w-4 h-4 text-rose-500 dark:text-rose-400 shrink-0" />
+              <p className="text-rose-600 dark:text-rose-400 text-sm">{jsonError}</p>
             </div>
           )}
 
@@ -238,13 +238,13 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
                 <button
                   key={label}
                   onClick={() => setJsonText(JSON.stringify(payload, null, 2))}
-                  className="p-3 bg-white hover:bg-blue-50 border border-slate-200
-                    hover:border-blue-200 rounded-xl text-left transition-all group shadow-sm"
+                  className="p-3 bg-white dark:bg-slate-900 hover:bg-blue-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800
+                    hover:border-blue-200 dark:hover:border-slate-600 rounded-xl text-left transition-all group shadow-sm"
                 >
-                  <p className="text-slate-800 font-medium text-sm group-hover:text-blue-600 transition-colors">
+                  <p className="text-slate-800 dark:text-slate-200 font-medium text-sm group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {label}
                   </p>
-                  <p className="text-slate-400 text-xs mt-0.5">
+                  <p className="text-slate-400 dark:text-slate-500 text-xs mt-0.5">
                     {Object.keys(payload).length - 2} spec attributes
                   </p>
                 </button>
@@ -256,7 +256,7 @@ export default function FileUploadZone({ onSubmit, isLoading }) {
             onClick={handleJsonSubmit}
             disabled={isLoading}
             className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 
-              disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400
+              disabled:from-slate-200 disabled:to-slate-200 dark:disabled:from-slate-800 dark:disabled:to-slate-800 disabled:text-slate-400 dark:disabled:text-slate-600
               text-white font-medium rounded-xl transition-all shadow-md shadow-blue-500/20
               flex items-center justify-center gap-2"
           >

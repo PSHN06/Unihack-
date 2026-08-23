@@ -15,6 +15,12 @@ from typing import List, Dict, Any
 import google.generativeai as genai
 from dotenv import load_dotenv
 
+from rule_extractor import CANONICAL_BRANDS, get_lovs_for_classpath
+try:
+    from thefuzz import process
+except ImportError:
+    process = None
+
 load_dotenv()
 
 # --------------------------------------------------------------------------- #
@@ -117,6 +123,8 @@ Return ONLY a single valid JSON object with these exact keys:
 invoice_desc, mobile_desc, short_desc, long_desc, retail_desc, marketing_desc,
 classpath, unspsc, manufacturer, brand, product_name, application, with_feature,
 standards, features, attributes, warranty, country_of_origin
+
+{lov_constraint_text}
 """
 
 
@@ -137,11 +145,20 @@ def enrich_row(row: dict, model=None) -> dict:
     part_num = row.get("Mfg_Part_Num", "")
     part_desc = row.get("Part_Desc", "")
 
+    # For hackathon prototype: we assume classpath based on input to inject LOVs
+    # In a fully robust system, taxonomy_engine runs first
+    guessed_classpath = "Appliances & Consumer Electronics>Kitchen Appliances>Built-In Dishwashers" if "Dishwasher" in part_desc else ""
+    lov_text = get_lovs_for_classpath(guessed_classpath)
+    lov_constraint_text = ""
+    if lov_text:
+        lov_constraint_text = f"CRITICAL: You MUST select attribute labels and values strictly from this allowed List of Values (LOV):\n{lov_text}"
+
     prompt = ENRICHMENT_PROMPT.format(
         part_num=part_num,
         part_desc=part_desc,
         manuf=manuf,
         brand=brand,
+        lov_constraint_text=lov_constraint_text
     )
 
     if model is None:
@@ -168,9 +185,28 @@ def enrich_row(row: dict, model=None) -> dict:
     out["Part_Manuf"] = manuf_raw
     out["MANUFACTURER_PART_NUMBER"] = part_num
 
+    # Fuzzy matching for canonical manufacturer and brand
+    raw_manuf = enriched.get("manufacturer", manuf)
+    raw_brand = enriched.get("brand", brand)
+    
+    final_manuf = raw_manuf
+    final_brand = raw_brand
+    
+    if process and CANONICAL_BRANDS:
+        # Match against known canonical brands list
+        brand_names = [cb["brand"] for cb in CANONICAL_BRANDS]
+        best_match, score = process.extractOne(raw_brand, brand_names)
+        if score > 80:
+            final_brand = best_match
+            # Align manufacturer with canonical brand
+            for cb in CANONICAL_BRANDS:
+                if cb["brand"] == best_match:
+                    final_manuf = cb["manuf"]
+                    break
+
     # Gemini-enriched fields
-    out["MANUFACTURER_NAME"] = enriched.get("manufacturer", manuf)
-    out["BRAND_NAME"] = enriched.get("brand", brand)
+    out["MANUFACTURER_NAME"] = final_manuf
+    out["BRAND_NAME"] = final_brand
     out["Classpath"] = enriched.get("classpath", "")
     out["INVOICE_DESC"] = (enriched.get("invoice_desc", ""))[:40].upper()
     out["MOBILE_DESC"] = enriched.get("mobile_desc", "")[:80]
